@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <body>
+<header>
+  <nav>
     <ul>
       <li><a href="/sessions/new">Login</a></li>
       <li><a href="/users/new">Register</a></li>
     </ul>
-  <body>
-</html>
+  </nav>
+</header>

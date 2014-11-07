@@ -1,6 +1,7 @@
 var path = require('path'),
     config = require(path.join(Node.root, 'config', 'environment')),
     mongoose = require(path.join(Node.root, 'config', 'mongoose')),
+    swig = require('swig'),
     express = require('express'),
     compression = require('compression');
     methodOverride = require('method-override'),
@@ -9,20 +10,19 @@ var path = require('path'),
     // passport = require('passport'),
     // FacebookStrategy = require('passport-facebook').Stategy,
     csrf = require('csurf'),
-    ejs = require('ejs'),
-    // partials = require('express-partials'),
     bodyParser = require('body-parser');
     debug = require('debug');
 
 var db = mongoose();
 var app = express();
+app.engine('swig', swig.renderFile);
 
 app.set('port', env.get('EXPRESS:PORT'));
-app.set('views', './app/views');
-app.set('view engine', 'ejs');
-// app.set('view options', { defaultLayout: 'layouts/application' } );
-// app.set('view options', { layout: 'layouts/application' } );
+app.set('view engine', 'swig');
+app.set('views', path.join(Node.root, 'app', 'views'));
 
+app.set('view cache', false);
+swig.setDefaults({ cache: false });
 app.use(morgan('dev'));
 app.use(session({
   secret: 'some really long secret',
@@ -43,7 +43,6 @@ app.use(methodOverride(function(req, res){
     return method
   }
 }));
-// app.use(partials());
 
 // passport.use(new FacebookStrategy({
 //     clientID: env.get('FACEBOOK_CLIENT_ID'),
