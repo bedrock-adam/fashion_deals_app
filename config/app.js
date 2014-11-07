@@ -17,7 +17,6 @@ var db = mongoose();
 var app = express();
 app.engine('swig', swig.renderFile);
 
-app.set('port', env.get('EXPRESS:PORT'));
 app.set('view engine', 'swig');
 app.set('views', path.join(Node.root, 'app', 'views'));
 
