@@ -3,7 +3,8 @@ var User = require('../models/user.js');
 exports.new = function(req, res) {
   var user = new User();
 
-  res.render('users/new', { user: user, csrfToken: req.csrfToken() } );
+  // res.render('users/new', { user: user, csrfToken: req.csrfToken() } );
+  res.render('users/new', { user: user } );
 };
 
 exports.create = function(req, res) {
