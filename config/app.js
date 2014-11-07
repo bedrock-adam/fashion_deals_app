@@ -7,8 +7,6 @@ var path = require('path'),
     methodOverride = require('method-override'),
     session = require('express-session'),
     morgan = require('morgan');
-    // passport = require('passport'),
-    // FacebookStrategy = require('passport-facebook').Stategy,
     csrf = require('csurf'),
     bodyParser = require('body-parser');
     debug = require('debug');
@@ -43,19 +41,6 @@ app.use(methodOverride(function(req, res){
   }
 }));
 
-// passport.use(new FacebookStrategy({
-//     clientID: env.get('FACEBOOK_CLIENT_ID'),
-//     clientSecret: env.get('FACEBOOK_CLIENT_SECRET'),
-//     callbackURL: env.get("FACEBOOK_CALLBACK_URL')
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     done();
-//     // User.findOrCreate(..., function(err, user) {
-//     //   if (err) { return done(err); }
-//     //   done(null, user);
-//     // });
-//   }
-// ));
 
 app.use(require('../app/routes/home')(express.Router()));
 app.use(require('../app/routes/deals')(express.Router()));

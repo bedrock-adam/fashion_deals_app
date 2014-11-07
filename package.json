@@ -33,8 +33,6 @@
     "method-override": "^2.3.0",
     "mongoose": "^3.8.18",
     "nconf": "^0.6.9",
-    "passport": "^0.2.1",
-    "passport-facebook": "^1.0.3"
     "swig": "^1.4.2"
   }
 }
