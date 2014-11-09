@@ -5,6 +5,7 @@
 
   <form action="{{ "/deals/" + deal.id }}" method="POST">
     <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <label>
       <input type="text" name="deal[title]" value="{{ deal.title }}">
     </label>

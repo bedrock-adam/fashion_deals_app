@@ -5,12 +5,13 @@ var path = require('path'),
     express = require('express'),
     compression = require('compression');
     methodOverride = require('method-override'),
+    cookieSession = require('cookie-session'),
+    bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
-    // cookieSession = require('cookie-session'),
-    // csrf = require('csurf'),
+    cookieSession = require('cookie-session'),
+    csrf = require('csurf'),
     morgan = require('morgan'),
-    bodyParser = require('body-parser');
-    // debug = require('debug'),
+    debug = require('debug'),
     db = mongoose(),
     app = express();
 
@@ -22,7 +23,9 @@ app.set('views', path.join(Node.root, 'app', 'views'));
 app.set('view cache', false);
 swig.setDefaults({ cache: false });
 
-app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -33,19 +36,21 @@ app.use(methodOverride(function(req, res){
 }));
 
 app.use(cookieParser());
-// app.use(cookieSession({keys: [env.get('SESSION_SECRET')]}));
-// app.use(cookieParser(env.get('SESSION_SECRET')));
-// app.use(csrf({cookie: true}));
+app.use(cookieSession({secret: env.get('SESSION_SECRET'), cookie: { maxAge: 60000 }}));
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(csrf({cookie: true}));
+app.use(function(req, res, next) {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 app.use(express.static('./public'));
 
 app.use(require(path.join(Node.root, 'app', 'routes', 'home'))(express.Router()));
 app.use(require(path.join(Node.root, 'app', 'routes', 'deals'))(express.Router()));
 app.use(require(path.join(Node.root, 'app', 'routes', 'sessions'))(express.Router()));
 app.use(require(path.join(Node.root, 'app', 'routes', 'users'))(express.Router()));
+
+app.use(morgan('dev'));
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

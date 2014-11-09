@@ -17,6 +17,7 @@
           <td>
             <form action="{{ "/deals/" + deal.id }}" method="POST">
               <input type="hidden" name="_method" value="DELETE">
+              <input type="hidden" name="_csrf" value="{{csrfToken}}">
               <input type="submit" value="Destroy">
             </form>
           </td>
