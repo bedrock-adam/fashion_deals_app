@@ -9,6 +9,7 @@
   </head>
   <body>
     {% include '../shared/header.swig' %}
+    {% include '../shared/flash.swig' %}
     {% block content %}{% endblock %}
     {% include '../shared/footer.swig' %}
   </body>

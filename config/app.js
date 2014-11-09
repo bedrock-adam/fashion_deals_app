@@ -10,6 +10,7 @@ var path = require('path'),
     cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session'),
     csrf = require('csurf'),
+    flash = require('connect-flash'),
     morgan = require('morgan'),
     debug = require('debug'),
     db = mongoose(),
@@ -43,6 +44,13 @@ app.use(function(req, res, next) {
   res.locals.csrfToken = req.csrfToken();
   next();
 });
+
+app.use(flash());
+app.use(function(req, res, next) {
+  res.locals.flash = req.flash();
+  next();
+});
+
 app.use(express.static('./public'));
 
 app.use(require(path.join(Node.root, 'app', 'routes', 'home'))(express.Router()));

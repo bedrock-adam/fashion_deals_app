@@ -20,8 +20,12 @@ exports.new = function(req, res) {
 
 exports.create = function(req, res) {
   Deal.create(req.body.deal).then(function(deal) {
+    req.flash('info', 'Deal succesfully created.');
+
     res.redirect('/deals/' + deal.id);
   }, function(err) {
+    req.flash('error', 'Deal could not be created.');
+
     res.send(err.message);
   });
 };
@@ -32,18 +36,28 @@ exports.edit = function(req, res) {
 
 exports.update = function(req, res) {
   req.deal.update(req.body.deal).exec().then(function(deal) {
+    req.flash('info', 'Deal succesfully updated.');
+
     res.redirect('/deals/' + req.deal.id);
   }, function(err) {
+    req.flash('error', 'Deal could not be updated.');
+
     res.send(err.message);
   });
 
 };
 
 exports.destroy = function(req, res) {
-  req.deal.remove().exec().then(function() {
+  req.deal.remove(function(err, _) {
+    if (err) return next(err);
+
+    req.flash('info', 'Deal succesfully removed.');
+
     res.redirect('/deals');
   }, function(err) {
-    res.send(err.message);
+    req.flash('error', 'Deal could not be removed.');
+
+    res.redirect('/deals' + deal._id);
   });
 };
 
