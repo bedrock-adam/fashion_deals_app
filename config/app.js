@@ -1,6 +1,6 @@
 var path = require('path'),
-    config = require(path.join(Node.root, 'config', 'environment')),
-    mongoose = require(path.join(Node.root, 'config', 'mongoose')),
+    env = require(path.join(__dirname, 'environment')),
+    db = require(path.join(__dirname, 'db')),
     swig = require('swig'),
     express = require('express'),
     compression = require('compression');
@@ -13,13 +13,12 @@ var path = require('path'),
     flash = require('connect-flash'),
     morgan = require('morgan'),
     debug = require('debug'),
-    db = mongoose(),
     app = express();
 
 app.engine('swig', swig.renderFile);
 
 app.set('view engine', 'swig');
-app.set('views', path.join(Node.root, 'app', 'views'));
+app.set('views', path.join(__dirname, '../', 'app', 'views'));
 
 app.set('view cache', false);
 swig.setDefaults({ cache: false });
@@ -53,10 +52,10 @@ app.use(function(req, res, next) {
 
 app.use(express.static('./public'));
 
-app.use(require(path.join(Node.root, 'app', 'routes', 'home'))(express.Router()));
-app.use(require(path.join(Node.root, 'app', 'routes', 'deals'))(express.Router()));
-app.use(require(path.join(Node.root, 'app', 'routes', 'sessions'))(express.Router()));
-app.use(require(path.join(Node.root, 'app', 'routes', 'users'))(express.Router()));
+app.use(require(path.join('../', 'app', 'routes', 'home'))(express.Router()));
+app.use(require(path.join('../', 'app', 'routes', 'deals'))(express.Router()));
+app.use(require(path.join('../', 'app', 'routes', 'sessions'))(express.Router()));
+app.use(require(path.join('../', 'app', 'routes', 'users'))(express.Router()));
 
 app.use(morgan('dev'));
 

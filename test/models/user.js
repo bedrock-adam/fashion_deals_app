@@ -1,27 +1,49 @@
-var User = require('../../app/models/user');
-var expect = require('expect.js');
+var path = require('path'),
+    db = require(path.join(__dirname, '..', '..', 'config', 'db')),
+    expect = require('expect.js');
 
 describe('User', function() {
+  var User = db.User;
+
   describe('#authenticate', function() {
-    it('returns authenticated user', function(done) {
-      var username = 'Adam';
-      var password = 'thisisatest';
+    var username = 'Adam1';
+    var password = 'thisisatest';
 
-      var attrs = {
-        username: username,
-        email: 'adam@test.com',
-        password: password
-      };
+    var userAttrs = {
+      username: username,
+      email: 'adam@test.com',
+      password: password
+    };
 
-      User.create(attrs, function(err, user) {
-        expect(err).to.be(null);
+    var user = new User(userAttrs);
 
-        User.authenticate(username, password, function(res, user) {
-          expect(err).to.be(null);
+    context('correct credentials', function() {
+      it('returns authenticated user', function(done) {
+        user.save(function(err, user) {
+          if (err) return done(err);
 
-          expect(user).to.be.ok;
+          User.authenticate(username, password, function(err, user) {
+            if (err) return done(err);
 
-          done();
+            expect(user).to.be.ok;
+
+            done();
+          });
+        });
+      });
+    });
+
+    context('incorrect credentials', function() {
+      it('passes an error', function(done) {
+        user.save(function(err, user) {
+          if (err) return done(err);
+
+          User.authenticate(username, 'incorrect', function(err, user) {
+            expect(err).to.be.an(Error);
+            expect(err.message).to.equal('Invalid username or password')
+
+            done();
+          });
         });
       });
     });

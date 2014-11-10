@@ -1,5 +1,8 @@
-var _ = require('lodash'),
-    Deal = require('../models/deal.js');
+var path = require('path'),
+    _ = require('lodash'),
+    db = require(path.join(__dirname, '..', '..', 'config', 'db'));
+
+var Deal = db.Deal;
 
 exports.index = function(req, res) {
   Deal.find({}, function(err, deals) {
