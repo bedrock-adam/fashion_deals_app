@@ -14,6 +14,8 @@ var DealSchema = new Schema({
   //   type: Schema.ObjectId,
   //   ref: 'User'
   // }
+}, {
+  strict: true
 });
 
 module.exports = mongoose.model('Deal', DealSchema);
