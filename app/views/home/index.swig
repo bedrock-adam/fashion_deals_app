@@ -4,6 +4,9 @@
   <p>Welcome to Fashion Deals App</p>
 
   <ul id="deals">
+    {% for deal in deals %}
+      <li id="{{deal.id}}">{{ deal.title }}</li>
+    {% endfor %}
   </ul>
 
   <script src="bower_components/zepto/zepto.js"></script>
@@ -18,8 +21,16 @@
 
       var dealsEl = $('#deals');
 
-      socket.on('create', function (data) {
-        dealsEl.append('<li>' + data.title + '</li>')
+      socket.on('create', function(data) {
+        dealsEl.append('<li>' + data.title + '</li>');
+      });
+
+      socket.on('update', function(data) {
+        $('#' + data._id).text(data.title);
+      });
+
+      socket.on('destroy', function(data) {
+        $('#' + data._id).remove();
       });
     });
   </script>

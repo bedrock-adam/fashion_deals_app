@@ -60,7 +60,7 @@ module.exports = function(app, io, db) {
       deal.remove(function(err) {
         if (err) return next(err);
 
-        // dealsIo.emit('destroy', deal.toJSON());
+        dealsIo.emit('destroy', deal.toJSON());
         req.flash('info', 'Deal succesfully removed.');
 
         res.redirect('/deals');

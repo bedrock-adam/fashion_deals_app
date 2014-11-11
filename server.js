@@ -173,7 +173,7 @@ app.get('/auth/google/return',
 
 app.use(require(path.join(__dirname, 'app', 'routes', 'api', 'deals'))(express.Router()));
 
-app.use(require(path.join(__dirname, 'app', 'routes', 'homeRouter'))(express.Router()));
+app.use(require(path.join(__dirname, 'app', 'routes', 'homeRouter'))(express.Router(), io, db));
 app.use(require(path.join(__dirname, 'app', 'routes', 'dealsRouter'))(express.Router(), io, db));
 app.use(require(path.join(__dirname, 'app', 'routes', 'sessionsRouter'))(express.Router()));
 app.use(require(path.join(__dirname, 'app', 'routes', 'usersRouter'))(express.Router()));
@@ -210,12 +210,6 @@ io.on('connection', function(socket) {
   socket.on('disconnect', function() {
     console.log('user has disconnected');
   });
-
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-
-  socket.emit('news', { hello: 'world' });
 });
 
 app.use(function(req, res, next) {
