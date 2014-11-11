@@ -8,8 +8,8 @@ var path = require('path'),
     methodOverride = require('method-override'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
-    cookieSession = require('cookie-session'),
-    // MongoStore = require('connect-mongo')(cookieSession),
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
     csrf = require('csurf'),
     flash = require('connect-flash'),
     debug = require('debug'),
@@ -46,9 +46,23 @@ app.use(methodOverride(function(req, res){
 }));
 
 app.use(cookieParser());
-app.use(cookieSession({secret: env.get('SESSION_SECRET'), cookie: { maxAge: 60000 }}));
+
+var mongoStore = new MongoStore({
+  db: db.connection.db,
+});
+
+app.use(session({
+  secret: env.get('SESSION_SECRET'),
+  resave: true,
+  saveUninitialized: true,
+  store: mongoStore,
+  cookie: {
+    maxAge: new Date(Date.now() + 3600000 * 24)
+  }
+}));
 
 app.use(csrf({cookie: true}));
+
 app.use(function(req, res, next) {
   res.locals.csrfToken = req.csrfToken();
   next();
@@ -171,7 +185,23 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(morgan('dev'));
 
 io.use(function(socket, next) {
-  next(null, true);
+  cookieParser(env.get('SESSION_SECRET'))(socket.request, {}, function(err) {
+    var sessionId = socket.request.signedCookies['connect.sid'];
+
+    mongoStore.get(sessionId, function(err, session) {
+      socket.request.session = session;
+
+      passport.initialize()(socket.request, {}, function() {
+        passport.session()(socket.request, {}, function() {
+          if (socket.request.user) {
+            next(null, true);
+          } else {
+            next(new Error('User is not authenticated'));
+          }
+        });
+      });
+    });
+  });
 });
 
 io.on('connection', function(socket) {

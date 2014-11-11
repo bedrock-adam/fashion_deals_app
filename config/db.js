@@ -33,6 +33,7 @@ process.on('SIGINT', function() {
 });
 
 module.exports = {
+  connection: mongoose.connection,
   User: require(path.join(__dirname, '..', 'app', 'models', 'user'))(mongoose),
   Deal: require(path.join(__dirname, '..', 'app', 'models', 'deal'))(mongoose)
 };
