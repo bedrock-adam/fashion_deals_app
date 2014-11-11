@@ -33,6 +33,7 @@ module.exports = function(mongoose) {
       return (this._password = password);
     });
 
+
   UserSchema.set('toJSON', {
     transform: function(doc, ret, options) {
       ret.id = doc.id,
@@ -62,7 +63,9 @@ module.exports = function(mongoose) {
   });
 
   UserSchema.static('authenticate', function(username, password, cb) {
-    this.findOne({ 'username': username }, function(err, user) {
+    var normalizedUsername = username.trim().toLowerCase();
+
+    this.findOne({ 'username': normalizedUsername }, function(err, user) {
       if (err) return cb(error);
       if (!user) return cb(new Error('User not found'));
 

@@ -6,7 +6,7 @@ describe('User', function() {
   var User = db.User;
 
   describe('#authenticate', function() {
-    var username = 'Adam1';
+    var username = ' Adam1  ';
     var password = 'thisisatest';
 
     var userAttrs = {
