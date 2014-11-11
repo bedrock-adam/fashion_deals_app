@@ -4,7 +4,7 @@
   "description": "Fashion Deals App",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node server",
     "test": "mocha test"
   },
   "author": "Adam Mikulasev",
