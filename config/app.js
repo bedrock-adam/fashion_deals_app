@@ -5,7 +5,6 @@ var path = require('path'),
     express = require('express'),
     compression = require('compression');
     methodOverride = require('method-override'),
-    cookieSession = require('cookie-session'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session'),
@@ -13,6 +12,11 @@ var path = require('path'),
     flash = require('connect-flash'),
     morgan = require('morgan'),
     debug = require('debug'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    FacebookStrategy = require('passport-facebook').Strategy,
+    TwitterStrategy = require('passport-twitter').Strategy,
+    GoogleStrategy = require('passport-google').Strategy,
     app = express();
 
 app.engine('swig', swig.renderFile);
@@ -50,12 +54,111 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static('./public'));
+var User = db.User;
 
-app.use(require(path.join('../', 'app', 'routes', 'home'))(express.Router()));
-app.use(require(path.join('../', 'app', 'routes', 'deals'))(express.Router()));
-app.use(require(path.join('../', 'app', 'routes', 'sessions'))(express.Router()));
-app.use(require(path.join('../', 'app', 'routes', 'users'))(express.Router()));
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+  // User.findById(user, function(err, user) {
+  //   done(err, user);
+  // });
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy({
+  usernameField: 'session[username]',
+  passwordField: 'session[password]' 
+}, function(username, password, done) {
+  User.authenticate(username, password, done);
+}));
+
+passport.use(new FacebookStrategy({
+    clientID: env.get('FACEBOOK_CLIENT_ID'),
+    clientSecret: env.get('FACEBOOK_CLIENT_SECRET'),
+    callbackURL: env.get('FACEBOOK_CALLBACK_URL')
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // User.findOrCreate(..., function(err, user) {
+    //   if (err) { return done(err); }
+    //   done(null, user);
+    // });
+    done(null, profile);
+  }
+));
+
+passport.use(new TwitterStrategy({
+    consumerKey: env.get('TWITTER_CONSUMER_KEY'),
+    consumerSecret: env.get('TWITTER_CONSUMER_SECRET'),
+    callbackURL: env.get('TWITTER_CALLBACK_URL')
+  },
+  function(token, tokenSecret, profile, done) {
+    // User.findOrCreate(..., function(err, user) {
+    //   if (err) { return done(err); }
+    //   done(null, user);
+    // });
+    done(null, profile)
+  }
+));
+
+passport.use(new GoogleStrategy({
+    returnURL: env.get('GOOGLE_RETURN_URL'),
+    realm: env.get('GOOGLE_REALM')
+  },
+  function(identifier, profile, done) {
+    // User.findOrCreate({ openId: identifier }, function(err, user) {
+    //   done(err, user);
+    // });
+    done(null, profile);
+  }
+));
+
+app.post('/sessions', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/sessions/new',
+  successFlash: 'You have successfully logged in',
+  failureFlash: 'Invalid email or password'
+}));
+
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+      successRedirect: '/',
+      failureRedirect: '/sessions/new',
+      successFlash: 'Successfully logged in',
+      failureFlash: 'Failed to authenticate with provider'
+    }));
+
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback',
+    passport.authenticate('twitter', {
+      successRedirect: '/',
+      failureRedirect: '/sessions/new',
+      successFlash: 'Successfully logged in',
+      failureFlash: 'Failed to authenticate with provider'
+    }));
+
+app.get('/auth/google', passport.authenticate('google'));
+app.get('/auth/google/callback',
+  passport.authenticate('google', {
+      successRedirect: '/',
+      failureRedirect: '/sessions/new',
+      successFlash: 'Successfully logged in',
+      failureFlash: 'Failed to authenticate with provider'
+  }));
+
+app.use(require(path.join(__dirname, '..', 'app', 'routes', 'api', 'deals'))(express.Router()));
+
+app.use(require(path.join(__dirname, '..', 'app', 'routes', 'homeRouter'))(express.Router()));
+app.use(require(path.join(__dirname, '..', 'app', 'routes', 'dealsRouter'))(express.Router()));
+app.use(require(path.join(__dirname, '..', 'app', 'routes', 'sessionsRouter'))(express.Router()));
+app.use(require(path.join(__dirname, '..', 'app', 'routes', 'usersRouter'))(express.Router()));
+
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(morgan('dev'));
 

@@ -25,8 +25,8 @@ exports.new = function(req, res) {
 };
 
 exports.create = function(req, res) {
-  var deal_attrs = _.cloneDeep(req.body.deal);
-  var deal = new Deal(deal_attrs);
+  var dealAttrs = _.cloneDeep(req.body.deal);
+  var deal = new Deal(dealAttrs);
 
   deal.save(function(err) {
     if (err) return res.render('deals/new', { deal: deal, errors: err.errors });
@@ -43,9 +43,9 @@ exports.edit = function(req, res) {
 
 exports.update = function(req, res) {
   var deal = req.deal;
-  var deal_attrs = _.cloneDeep(req.body.deal);
+  var dealAttrs = _.cloneDeep(req.body.deal);
 
-  _.extend(deal, deal_attrs);
+  _.extend(deal, dealAttrs);
 
   deal.save(function(err) {
     if (err) return res.render('deals/edit', { deal: deal, errors: err.errors });

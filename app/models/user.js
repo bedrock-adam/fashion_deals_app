@@ -8,17 +8,21 @@ module.exports = function(mongoose) {
     username: {
       type: String,
       required: true,
-      index: { unique: true }
+      index: { unique: true },
+      trim: true,
+      lowercase: true
     },
     email: {
       type: String,
       required: true,
-      index: { unique: true }
+      index: { unique: true },
+      trim: true,
+      lowercase: true
     },
     password_hash: {
       type: String,
       required: true
-    }
+    },
   });
 
   UserSchema.virtual('password')
@@ -28,6 +32,15 @@ module.exports = function(mongoose) {
     .set(function(password) {
       return (this._password = password);
     });
+
+  UserSchema.set('toJSON', {
+    transform: function(doc, ret, options) {
+      ret.id = doc.id,
+      delete ret.__v;
+      delete ret._id;
+      delete ret.password_hash;
+    }
+  });
 
   UserSchema.pre('validate', function(next) {
     // if (!user.isModified('password')) return next();
@@ -63,4 +76,4 @@ module.exports = function(mongoose) {
   });
 
   return mongoose.model('User', UserSchema);
-}
+};
