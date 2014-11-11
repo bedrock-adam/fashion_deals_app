@@ -27,6 +27,7 @@ exports.new = function(req, res) {
 exports.create = function(req, res) {
   var dealAttrs = _.cloneDeep(req.body.deal);
   var deal = new Deal(dealAttrs);
+  deal.userId = req.user.id;
 
   deal.save(function(err) {
     if (err) return res.render('deals/new', { deal: deal, errors: err.errors });
