@@ -6,13 +6,35 @@
   <table>
     <tbody>
       <tr>
-        <th>Title<th>
-        <th></th>
-        <th></th>
+        <th>Title</th>
+
+        <th>URL</th>
+        <th>Coupon Code</th>
+        <th>Is Affiliated</th>
+        <th>Starts At</th>
+        <th>Ends At</th>
+        <th>Is Freebie</th>
+        <th>Category</th>
+        <th>Tags</th>
+        <th>User Id</th>
+
+        <th>Edit</th>
+        <th>Destroy</th>
       </tr>
       {% for deal in deals %}
         <tr>
-          <td><a href="{{ "/deals/" + deal.id }}">{{ deal.title }}</td>
+          <td><a href="{{ "/deals/" + deal.id }}">{{ deal.title }}</a></td>
+
+          <td>{{ deal.url }}</td>
+          <td>{{ deal.couponCode }}</td>
+          <td>{{ deal.isAffiliated }}</td>
+          <td>{{ deal.startsAt }}</td>
+          <td>{{ deal.endsAt }}</td>
+          <td>{{ deal.isFreebie }}</td>
+          <td>{{ deal.category }}</td>
+          <td>{{ deal.tags }}</td>
+          <td>{{ deal.userId }}</td>
+
           <td><a href="{{ "/deals/" + deal.id + "/edit" }}">Edit</a></td>
           <td>
             <form action="{{ "/deals/" + deal.id }}" method="POST">
