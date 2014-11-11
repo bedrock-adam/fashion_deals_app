@@ -10,7 +10,6 @@
   "author": "Adam Mikulasev",
   "license": "ISC",
   "devDependencies": {
-    "debug": "^2.1.0",
     "expect.js": "^0.3.1",
     "grunt": "^0.4.5",
     "grunt-contrib-coffee": "^0.12.0",
@@ -27,6 +26,7 @@
     "cookie-parser": "^1.3.3",
     "cookie-session": "^1.0.2",
     "csurf": "^1.6.2",
+    "debug": "^2.1.0",
     "express": "^4.10.1",
     "express-flash": "0.0.2",
     "lodash": "^2.4.1",
