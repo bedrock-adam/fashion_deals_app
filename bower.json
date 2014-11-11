@@ -19,6 +19,7 @@
     "tests"
   ],
   "dependencies": {
-    "socket.io-client": "~1.2.0"
+    "socket.io-client": "~1.2.0",
+    "zepto": "~1.1.4"
   }
 }

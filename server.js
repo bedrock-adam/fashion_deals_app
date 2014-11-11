@@ -174,7 +174,7 @@ app.get('/auth/google/return',
 app.use(require(path.join(__dirname, 'app', 'routes', 'api', 'deals'))(express.Router()));
 
 app.use(require(path.join(__dirname, 'app', 'routes', 'homeRouter'))(express.Router()));
-app.use(require(path.join(__dirname, 'app', 'routes', 'dealsRouter'))(express.Router()));
+app.use(require(path.join(__dirname, 'app', 'routes', 'dealsRouter'))(express.Router(), io, db));
 app.use(require(path.join(__dirname, 'app', 'routes', 'sessionsRouter'))(express.Router()));
 app.use(require(path.join(__dirname, 'app', 'routes', 'usersRouter'))(express.Router()));
 

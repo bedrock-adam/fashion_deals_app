@@ -1,80 +1,79 @@
-var path = require('path'),
-    _ = require('lodash'),
-    db = require(path.join(__dirname, '..', '..', 'config', 'db'));
+ var _ = require('lodash');
 
-var Deal = db.Deal;
+module.exports = function(app, io, db) {
+  var dealsIo = io.of('/deals'),
+      Deal = db.Deal;
 
-exports.index = function(req, res) {
-  Deal.find({}, function(err, deals) {
-    if (err) return next(err);
+  return {
+    index: function(req, res) {
+      Deal.find({}, function(err, deals) {
+        if (err) return next(err);
 
-    res.render('deals/index', { deals: deals });
-  });
-};
+        res.render('deals/index', { deals: deals });
+      });
+    },
+    show: function(req, res) {
+      var deal = req.deal;
 
-exports.show = function(req, res) {
-  var deal = req.deal;
+      res.render('deals/show', { deal: deal });
+    },
+    new: function(req, res) {
+      var deal = new Deal();
 
-  res.render('deals/show', { deal: deal });
-};
+      res.render('deals/new', { deal: deal });
+    },
+    create: function(req, res) {
+      var dealAttrs = _.cloneDeep(req.body.deal);
+      var deal = new Deal(dealAttrs);
+      deal.userId = req.user.id;
 
-exports.new = function(req, res) {
-  var deal = new Deal();
+      deal.save(function(err) {
+        if (err) return res.render('deals/new', { deal: deal, errors: err.errors });
 
-  res.render('deals/new', { deal: deal });
-};
+        dealsIo.emit('create', deal.toJSON());
+        req.flash('info', 'Deal succesfully created.');
 
-exports.create = function(req, res) {
-  var dealAttrs = _.cloneDeep(req.body.deal);
-  var deal = new Deal(dealAttrs);
-  deal.userId = req.user.id;
+        res.redirect('/deals/' + deal.id);
+      });
+    },
+    edit: function(req, res) {
+      res.render('deals/edit', { deal: req.deal });
+    },
+    update: function(req, res) {
+      var deal = req.deal;
+      var dealAttrs = _.cloneDeep(req.body.deal);
 
-  deal.save(function(err) {
-    if (err) return res.render('deals/new', { deal: deal, errors: err.errors });
+      _.extend(deal, dealAttrs);
 
-    req.flash('info', 'Deal succesfully created.');
+      deal.save(function(err) {
+        if (err) return res.render('deals/edit', { deal: deal, errors: err.errors });
 
-    res.redirect('/deals/' + deal.id);
-  });
-};
+        dealsIo.emit('update', deal.toJSON());
+        req.flash('info', 'Deal succesfully updated.');
 
-exports.edit = function(req, res) {
-  res.render('deals/edit', { deal: req.deal });
-};
+        res.redirect('/deals/' + deal._id);
+      });
+    },
+    destroy: function(req, res) {
+      var deal = req.deal;
 
-exports.update = function(req, res) {
-  var deal = req.deal;
-  var dealAttrs = _.cloneDeep(req.body.deal);
+      deal.remove(function(err) {
+        if (err) return next(err);
 
-  _.extend(deal, dealAttrs);
+        // dealsIo.emit('destroy', deal.toJSON());
+        req.flash('info', 'Deal succesfully removed.');
 
-  deal.save(function(err) {
-    if (err) return res.render('deals/edit', { deal: deal, errors: err.errors });
+        res.redirect('/deals');
+      });
+    },
+    dealById: function(req, res, next, id) {
+      Deal.findById(id, function(err, deal) {
+        if (err) return next(err);
 
-    req.flash('info', 'Deal succesfully updated.');
+        req.deal = deal;
 
-    res.redirect('/deals/' + deal._id);
-  });
-};
-
-exports.destroy = function(req, res) {
-  var deal = req.deal;
-
-  deal.remove(function(err) {
-    if (err) return next(err);
-
-    req.flash('info', 'Deal succesfully removed.');
-
-    res.redirect('/deals');
-  });
-};
-
-exports.dealById = function(req, res, next, id) {
-  Deal.findById(id, function(err, deal) {
-    if (err) return next(err);
-
-    req.deal = deal;
-
-    next();
-  });
+        next();
+      });
+    }
+  };
 };

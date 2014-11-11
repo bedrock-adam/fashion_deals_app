@@ -1,7 +1,8 @@
-var path = require('path'),
-    dealsController = require(path.join(__dirname, '..', 'controllers', 'dealsController'));
+var path = require('path');
 
-module.exports = function(router) {
+module.exports = function(router, io, db) {
+  var dealsController = require(path.join(__dirname, '..', 'controllers', 'dealsController'))(app, io, db);
+
   router.route('/deals/new')
     .get(dealsController.new);
 
