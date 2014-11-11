@@ -188,6 +188,6 @@ app.use(function(err, req, res, next) {
 
 app.use(compression());
 
-var server = app.listen(env.get('EXPRESS_PORT'), function() {
+var server = app.listen(env.get('PORT');, function() {
   console.log('Express server listening on port ' + server.address().port);
 });
