@@ -1,3 +1,5 @@
+path = require 'path'
+
 module.exports = (grunt) ->
   'use strict'
 
@@ -39,3 +41,16 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-nodemon'
 
   grunt.task.registerTask 'default', ['env:dev', 'jshint', 'nodemon']
+
+  grunt.registerTask 'db:seed', 'seed database', ->
+    grunt.log.writeln 'seeding database'
+
+    done = @async()
+
+    seeds = require path.join(__dirname, 'db', 'seeds')
+    seeds (err) ->
+      throw err if err
+
+      grunt.log.writeln 'seeded database'
+      done()
+
