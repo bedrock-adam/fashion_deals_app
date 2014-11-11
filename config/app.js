@@ -10,7 +10,6 @@ var path = require('path'),
     cookieSession = require('cookie-session'),
     csrf = require('csurf'),
     flash = require('connect-flash'),
-    morgan = require('morgan'),
     debug = require('debug'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
@@ -18,6 +17,7 @@ var path = require('path'),
     TwitterStrategy = require('passport-twitter').Strategy,
     GoogleStrategy = require('passport-google').Strategy,
     favicon = require('serve-favicon'),
+    morgan = require('morgan'),
     app = express();
 
 app.engine('swig', swig.renderFile);
@@ -162,6 +162,7 @@ app.use(require(path.join(__dirname, '..', 'app', 'routes', 'usersRouter'))(expr
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')));
+
 app.use(morgan('dev'));
 
 app.use(function(req, res, next) {
