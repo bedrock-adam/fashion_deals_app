@@ -1,19 +1,15 @@
 #!/usr/bin/env node
 
-// var path = require('path'),
-//     config = require(path.join(__dirname, 'config', 'environment')),
-//     app = require(path.join(__dirname, 'config', 'app'));
-
 var path = require('path'),
     env = require(path.join(__dirname, 'config', 'environment')),
     db = require(path.join(__dirname, 'config', 'db')),
     swig = require('swig'),
-    express = require('express'),
     compression = require('compression');
     methodOverride = require('method-override'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session'),
+    // MongoStore = require('connect-mongo')(cookieSession),
     csrf = require('csurf'),
     flash = require('connect-flash'),
     debug = require('debug'),
@@ -24,7 +20,10 @@ var path = require('path'),
     GoogleStrategy = require('passport-google').Strategy,
     favicon = require('serve-favicon'),
     morgan = require('morgan'),
-    app = express();
+    express = require('express'),
+    app = express(),
+    server = require('http').Server(app),
+    io = require('socket.io')(server);
 
 app.engine('swig', swig.renderFile);
 
@@ -171,6 +170,24 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use(morgan('dev'));
 
+io.use(function(socket, next) {
+  next(null, true);
+});
+
+io.on('connection', function(socket) {
+  console.log('user has connected');
+
+  socket.on('disconnect', function() {
+    console.log('user has disconnected');
+  });
+
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+
+  socket.emit('news', { hello: 'world' });
+});
+
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
@@ -188,6 +205,6 @@ app.use(function(err, req, res, next) {
 
 app.use(compression());
 
-var server = app.listen(env.get('PORT'), function() {
-  console.log('Express server listening on port ' + server.address().port);
+var server = server.listen(env.get('PORT'), function() {
+  console.log('server listening on port ' + server.address().port);
 });

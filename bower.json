@@ -1,0 +1,24 @@
+{
+  "name": "fashion_deals_app",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Subskii/fashion_deals_app",
+  "authors": [
+    "Adam Mikulasev <adam@dealfetch.com.au>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "/public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "socket.io-client": "~1.2.0"
+  }
+}
