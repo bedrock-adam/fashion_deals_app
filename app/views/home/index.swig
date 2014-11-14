@@ -9,8 +9,8 @@
     {% endfor %}
   </ul>
 
-  <script src="bower_components/zepto/zepto.js"></script>
-  <script src="bower_components/socket.io-client/socket.io.js"></script>
+  <script src="lib/zepto/zepto.js"></script>
+  <script src="lib/socket.io-client/socket.io.js"></script>
   <script>
     Zepto(function($){
       var socket = io.connect(window.location.hostname);
