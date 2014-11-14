@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:ng="http://angularjs.org">
   <head>
     <meta charset="utf-8">
     <title>{% block title %}Fashion Deals App{% endblock %}</title>
