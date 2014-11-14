@@ -13,7 +13,7 @@
   <script src="bower_components/socket.io-client/socket.io.js"></script>
   <script>
     Zepto(function($){
-      var socket = io.connect('http://localhost:3000/deals');
+      var socket = io.connect(window.location.hostname);
 
       socket.on('connect', function() {
         console.log('connected');
