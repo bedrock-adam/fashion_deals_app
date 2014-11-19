@@ -6,11 +6,13 @@ var passport = require('passport'),
 
 module.exports = function(app, env, User) {
   passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user.id);
   });
 
-  passport.deserializeUser(function(user, done) {
-    done(null, user);
+  passport.deserializeUser(function(id, done) {
+    User.findOne({ _id: id }, function(err, user) {
+      done(err, user);
+    });
   });
 
   app.use(passport.initialize());
