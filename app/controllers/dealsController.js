@@ -18,7 +18,6 @@ module.exports = function(db) {
     },
     new: function(req, res) {
       var deal = new Deal();
-      // deal.userId = req.user.id;
 
       res.render('deals/new', { deal: deal });
     },
@@ -31,7 +30,6 @@ module.exports = function(db) {
         if (err) return res.render('deals/new', { deal: deal, errors: err.errors });
 
         req.flash('info', 'Deal succesfully created.');
-
         res.redirect('/deals/' + deal.id);
       });
     },
@@ -43,12 +41,12 @@ module.exports = function(db) {
       var dealAttrs = _.cloneDeep(req.body.deal);
 
       _.extend(deal, dealAttrs);
+      deal.userId = req.user.id;
 
       deal.save(function(err) {
         if (err) return res.render('deals/edit', { deal: deal, errors: err.errors });
 
         req.flash('info', 'Deal succesfully updated.');
-
         res.redirect('/deals/' + deal._id);
       });
     },
@@ -59,7 +57,6 @@ module.exports = function(db) {
         if (err) return next(err);
 
         req.flash('info', 'Deal succesfully removed.');
-
         res.redirect('/deals');
       });
     },
@@ -71,6 +68,22 @@ module.exports = function(db) {
 
         next();
       });
+    },
+    authenticate: function(req, res, next) {
+      if (!req.isAuthenticated()) {
+        req.flash('error', 'You must be logged in to perform this action.');
+        return res.redirect('/sessions/new');
+      }
+
+      next();
+    },
+    authorize: function(req, res, next) {
+      if (req.deal.user.id !== req.user.id) {
+        req.flash('error', 'You must be logged in to perform this action.');
+        return res.redirect('/sessions/new');
+      }
+
+      next();
     }
   };
 };
