@@ -3,9 +3,11 @@
     <h2>{{ err.message }}</h2>
 
     <ul>
-      {% for errorName in Object.keys(err.errors) %}
-        <li>{{ err.errors[errorName].message }}</li>
-      {% endfor %}
+      {% if err.errors %}
+        {% for errorName in Object.keys(err.errors) %}
+          <li>{{ err.errors[errorName].message }}</li>
+        {% endfor %}
+      {% endif %}
     </ul>
   </div>
 {% endif %}
