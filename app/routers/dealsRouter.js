@@ -8,15 +8,15 @@ module.exports = function(router, controller) {
     .get(controller.index)
     .post(controller.authenticate, controller.create);
 
-  router.route('/deals/:dealId')
+  router.route('/deals/:id')
     .get(controller.show)
     .put(controller.authenticate, controller.authorize, controller.update)
     .delete(controller.authenticate, controller.authorize, controller.destroy);
 
-  router.route('/deals/:dealId/edit')
+  router.route('/deals/:id/edit')
     .get(controller.authenticate, controller.authorize, controller.edit);
 
-  router.param('dealId', controller.findById);
+  router.param('id', controller.findById);
 
   return router;
 };
