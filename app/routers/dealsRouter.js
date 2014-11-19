@@ -14,7 +14,7 @@ module.exports = function(router, controller) {
     .delete(controller.authenticate, controller.authorize, controller.destroy);
 
   router.route('/deals/:dealId/edit')
-    .get(controller.edit);
+    .get(controller.authenticate, controller.authorize, controller.edit);
 
   router.param('dealId', controller.findById);
 

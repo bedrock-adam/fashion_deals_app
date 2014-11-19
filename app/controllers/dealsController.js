@@ -24,7 +24,7 @@ module.exports = function(db) {
     create: function(req, res) {
       var dealAttrs = _.cloneDeep(req.body.deal);
       var deal = new Deal(dealAttrs);
-      deal.userId = req.user.id;
+      deal.userId = req.user._id;
 
       deal.save(function(err) {
         if (err) return res.render('deals/new', { deal: deal, err: err });
@@ -41,7 +41,7 @@ module.exports = function(db) {
       var dealAttrs = _.cloneDeep(req.body.deal);
 
       _.extend(deal, dealAttrs);
-      deal.userId = req.user.id;
+      deal.userId = req.user._id;
 
       deal.save(function(err) {
         if (err) return res.render('deals/edit', { deal: deal, err: err });
@@ -78,7 +78,7 @@ module.exports = function(db) {
       next();
     },
     authorize: function(req, res, next) {
-      if (req.deal.user.id !== req.user.id) {
+      if (!req.user._id.equals(req.deal.userId)) {
         req.flash('error', 'You must be logged in to perform this action.');
         return res.redirect('/sessions/new');
       }
