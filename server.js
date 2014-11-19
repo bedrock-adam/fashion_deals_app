@@ -171,12 +171,15 @@ app.get('/auth/google/return',
       failureFlash: 'Failed to authenticate with provider'
   }));
 
-app.use(require(path.join(__dirname, 'app', 'routes', 'api', 'deals'))(express.Router()));
+var routers = require(path.join(__dirname, 'app', 'routers'))(),
+    controllers = require(path.join(__dirname, 'app', 'controllers'))(db);
 
-app.use(require(path.join(__dirname, 'app', 'routes', 'homeRouter'))(express.Router(), io, db));
-app.use(require(path.join(__dirname, 'app', 'routes', 'dealsRouter'))(express.Router(), io, db));
-app.use(require(path.join(__dirname, 'app', 'routes', 'sessionsRouter'))(express.Router()));
-app.use(require(path.join(__dirname, 'app', 'routes', 'usersRouter'))(express.Router()));
+app.use(routers.homeRouter(express.Router(), controllers.homeController));
+app.use(routers.dealsRouter(express.Router(), controllers.dealsController));
+app.use(routers.usersRouter(express.Router(), controllers.usersController));
+app.use(routers.sessionsRouter(express.Router(), controllers.sessionsController));
+
+app.use('/api', routers.dealsApiRouter(express.Router(), controllers.dealsApiController));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

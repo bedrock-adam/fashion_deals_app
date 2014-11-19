@@ -1,4 +1,4 @@
-module.exports = function(router, io, db) {
+module.exports = function(db) {
   var Deal = db.Deal;
 
   return {

@@ -1,8 +1,7 @@
- var _ = require('lodash');
+var _ = require('lodash');
 
-module.exports = function(app, io, db) {
-  var dealsIo = io.of('/deals'),
-      Deal = db.Deal;
+module.exports = function(db) {
+  Deal = db.Deal;
 
   return {
     index: function(req, res) {
@@ -19,6 +18,7 @@ module.exports = function(app, io, db) {
     },
     new: function(req, res) {
       var deal = new Deal();
+      // deal.userId = req.user.id;
 
       res.render('deals/new', { deal: deal });
     },
@@ -30,7 +30,7 @@ module.exports = function(app, io, db) {
       deal.save(function(err) {
         if (err) return res.render('deals/new', { deal: deal, errors: err.errors });
 
-        dealsIo.emit('create', deal.toJSON());
+        // dealsIo.emit('create', deal.toJSON());
         req.flash('info', 'Deal succesfully created.');
 
         res.redirect('/deals/' + deal.id);
@@ -48,7 +48,7 @@ module.exports = function(app, io, db) {
       deal.save(function(err) {
         if (err) return res.render('deals/edit', { deal: deal, errors: err.errors });
 
-        dealsIo.emit('update', deal.toJSON());
+        // dealsIo.emit('update', deal.toJSON());
         req.flash('info', 'Deal succesfully updated.');
 
         res.redirect('/deals/' + deal._id);
@@ -60,13 +60,13 @@ module.exports = function(app, io, db) {
       deal.remove(function(err) {
         if (err) return next(err);
 
-        dealsIo.emit('destroy', deal.toJSON());
+        // dealsIo.emit('destroy', deal.toJSON());
         req.flash('info', 'Deal succesfully removed.');
 
         res.redirect('/deals');
       });
     },
-    dealById: function(req, res, next, id) {
+    findById: function(req, res, next, id) {
       Deal.findById(id, function(err, deal) {
         if (err) return next(err);
 
