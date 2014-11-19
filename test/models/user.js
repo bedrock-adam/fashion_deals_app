@@ -1,5 +1,6 @@
 var path = require('path'),
-    db = require(path.join(__dirname, '..', '..', 'config', 'db')),
+    env = require(path.join(__dirname, '..', '..', 'config', 'environment')),
+    db = require(path.join(__dirname, '..', '..', 'app', 'models'))(env),
     expect = require('expect.js');
 
 describe('User', function() {

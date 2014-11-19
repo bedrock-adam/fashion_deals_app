@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 var path = require('path'),
-    env = require(path.join(__dirname, 'config', 'environment')),
-    db = require(path.join(__dirname, 'config', 'db')),
     swig = require('swig'),
     compression = require('compression');
     methodOverride = require('method-override'),
@@ -41,6 +39,9 @@ app.use(methodOverride(function(req, res){
 
 app.use(cookieParser());
 
+var env = require(path.join(__dirname, 'config', 'environment')),
+    db = require(path.join(__dirname, 'app', 'models'))(env);
+
 var mongoStore = new MongoStore({
   db: db.connection.db,
 });
@@ -70,6 +71,7 @@ app.use(function(req, res, next) {
 
 require(path.join(__dirname, 'config', 'passport'))(app, env, db.User);
 
+
 var routers = require(path.join(__dirname, 'app', 'routers'))(),
     controllers = require(path.join(__dirname, 'app', 'controllers'))(db);
 
@@ -79,6 +81,7 @@ app.use(routers.usersRouter(express.Router(), controllers.usersController));
 app.use(routers.sessionsRouter(express.Router(), controllers.sessionsController));
 
 app.use('/api', routers.dealsApiRouter(express.Router(), controllers.dealsApiController));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
