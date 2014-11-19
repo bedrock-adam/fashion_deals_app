@@ -30,7 +30,6 @@ module.exports = function(db) {
       deal.save(function(err) {
         if (err) return res.render('deals/new', { deal: deal, errors: err.errors });
 
-        // dealsIo.emit('create', deal.toJSON());
         req.flash('info', 'Deal succesfully created.');
 
         res.redirect('/deals/' + deal.id);
@@ -48,7 +47,6 @@ module.exports = function(db) {
       deal.save(function(err) {
         if (err) return res.render('deals/edit', { deal: deal, errors: err.errors });
 
-        // dealsIo.emit('update', deal.toJSON());
         req.flash('info', 'Deal succesfully updated.');
 
         res.redirect('/deals/' + deal._id);
@@ -60,7 +58,6 @@ module.exports = function(db) {
       deal.remove(function(err) {
         if (err) return next(err);
 
-        // dealsIo.emit('destroy', deal.toJSON());
         req.flash('info', 'Deal succesfully removed.');
 
         res.redirect('/deals');

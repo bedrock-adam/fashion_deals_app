@@ -18,7 +18,6 @@ var path = require('path'),
     express = require('express'),
     app = express(),
     server = require('http').Server(app),
-    io = require('socket.io')(server);
 
 app.engine('swig', swig.renderFile);
 
@@ -86,34 +85,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use(morgan('dev'));
-
-io.use(function(socket, next) {
-  cookieParser(env.get('SESSION_SECRET'))(socket.request, {}, function(err) {
-    var sessionId = socket.request.signedCookies['connect.sid'];
-
-    mongoStore.get(sessionId, function(err, session) {
-      socket.request.session = session;
-
-      passport.initialize()(socket.request, {}, function() {
-        passport.session()(socket.request, {}, function() {
-          if (socket.request.user) {
-            next(null, true);
-          } else {
-            next(new Error('User is not authenticated'));
-          }
-        });
-      });
-    });
-  });
-});
-
-io.on('connection', function(socket) {
-  console.log('user has connected');
-
-  socket.on('disconnect', function() {
-    console.log('user has disconnected');
-  });
-});
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
