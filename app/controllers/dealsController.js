@@ -27,7 +27,7 @@ module.exports = function(db) {
       deal.userId = req.user.id;
 
       deal.save(function(err) {
-        if (err) return res.render('deals/new', { deal: deal, errors: err.errors });
+        if (err) return res.render('deals/new', { deal: deal, err: err });
 
         req.flash('info', 'Deal succesfully created.');
         res.redirect('/deals/' + deal.id);
@@ -44,7 +44,7 @@ module.exports = function(db) {
       deal.userId = req.user.id;
 
       deal.save(function(err) {
-        if (err) return res.render('deals/edit', { deal: deal, errors: err.errors });
+        if (err) return res.render('deals/edit', { deal: deal, err: err });
 
         req.flash('info', 'Deal succesfully updated.');
         res.redirect('/deals/' + deal._id);

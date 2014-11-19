@@ -15,7 +15,7 @@ var path = require('path'),
     morgan = require('morgan'),
     express = require('express'),
     app = express(),
-    server = require('http').Server(app),
+    server = require('http').Server(app);
 
 app.engine('swig', swig.renderFile);
 
