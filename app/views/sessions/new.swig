@@ -3,13 +3,15 @@
 {% block content %}
   <h1>Sign In</h1>
 
-  <nav>
-    <ul>
-      <li><a href="/auth/facebook">Sign in with Facebook</a></li>
-      <li><a href="/auth/twitter">Sign in with Twitter</a></li>
-      <li><a href="/auth/google">Sign in with Google</li></a>
-    </ul>
-  </nav>
+  {#
+    <nav>
+      <ul>
+        <li><a href="/auth/facebook">Sign in with Facebook</a></li>
+        <li><a href="/auth/twitter">Sign in with Twitter</a></li>
+        <li><a href="/auth/google">Sign in with Google</li></a>
+      </ul>
+    </nav>
+  #}
 
   <hr/>
 
