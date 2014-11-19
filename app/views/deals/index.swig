@@ -7,7 +7,6 @@
     <tbody>
       <tr>
         <th>Title</th>
-
         <th>URL</th>
         <th>Coupon Code</th>
         <th>Is Affiliated</th>
@@ -16,6 +15,8 @@
         <th>Is Freebie</th>
         <th>Category</th>
         <th>Tags</th>
+        {# <th>Description</th> #}
+        <th>Created At</th>
         <th>User Id</th>
 
         <th>Edit</th>
@@ -24,7 +25,6 @@
       {% for deal in deals %}
         <tr>
           <td><a href="{{ "/deals/" + deal.id }}">{{ deal.title }}</a></td>
-
           <td>{{ deal.url }}</td>
           <td>{{ deal.couponCode }}</td>
           <td>{{ deal.isAffiliated }}</td>
@@ -33,6 +33,8 @@
           <td>{{ deal.isFreebie }}</td>
           <td>{{ deal.category }}</td>
           <td>{{ deal.tags }}</td>
+          {# <td>{{ deal.description }}</td> #}
+          <td>{{ deal.createdAt }}</td>
           <td>{{ deal.userId }}</td>
 
           <td><a href="{{ "/deals/" + deal.id + "/edit" }}">Edit</a></td>

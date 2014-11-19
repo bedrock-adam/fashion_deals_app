@@ -2,10 +2,6 @@ module.exports = function(mongoose) {
   var Schema = mongoose.Schema;
 
   var DealSchema = new Schema({
-    createdAt: {
-      type: Date,
-      default: Date.now
-    },
     title: {
       type: String,
       required: true
@@ -40,6 +36,10 @@ module.exports = function(mongoose) {
     description: {
       type: String,
       required: true
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
     },
     userId: {
       type: Schema.ObjectId,
