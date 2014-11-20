@@ -7,6 +7,10 @@ module.exports = function() {
     usersRouter: require(path.join(__dirname, 'usersRouter')),
     sessionsRouter: require(path.join(__dirname, 'sessionsRouter')),
 
+    angularRouter: require(path.join(__dirname, 'angularRouter')),
+    backboneRouter: require(path.join(__dirname, 'backboneRouter')),
+    emberRouter: require(path.join(__dirname, 'emberRouter')),
+
     dealsApiRouter: require(path.join(__dirname, 'dealsApiRouter'))
   };
 };

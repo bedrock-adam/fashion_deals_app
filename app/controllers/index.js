@@ -7,6 +7,10 @@ module.exports = function(db) {
     usersController: require(path.join(__dirname, 'usersController'))(db),
     sessionsController: require(path.join(__dirname, 'sessionsController'))(db),
 
-    dealsApiController: require(path.join(__dirname, 'dealsApiController'))(db)
+    dealsApiController: require(path.join(__dirname, 'dealsApiController'))(db),
+
+    angularController: require(path.join(__dirname, 'angularController'))(db),
+    backboneController: require(path.join(__dirname, 'backboneController'))(db),
+    emberController: require(path.join(__dirname, 'emberController'))(db)
   }
 }
