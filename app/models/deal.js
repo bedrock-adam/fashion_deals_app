@@ -45,7 +45,8 @@ module.exports = function(mongoose) {
       type: Schema.ObjectId,
       ref: 'User',
       required: true
-    }
+    },
+    // comments: [dealCommentSchema]
   }, {
     strict: true
   });
