@@ -3,10 +3,9 @@
   "url": "http://sometest.com",
   "couponCode": "COOL",
   "isAffiliated": true,
-  "startsAt": "2014-12-17T14:00:00 +11:00",
-  "endsAt": "2014-13-17T14:00:00 +11:00",
+  "startsAt": "12/17/2014",
+  "endsAt": "12/18/2014",
   "isFreebie": false,
   "tags": ["blah", "cool"],
-  "description": "big ups",
-  "createdAt": "2014-12-17T14:00:00 +11:00"
+  "description": "big ups"
 }
