@@ -1,6 +1,9 @@
-var path = require('path');
+var path = require('path'),
+    bodyParser = require('body-parser');
 
 module.exports = function(router, controller) {
+  router.use(bodyParser.json());
+
   router.route('/deals')
     .get(controller.index)
     .post(controller.create);

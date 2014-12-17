@@ -1,6 +1,10 @@
-var path = require('path');
+var bodyParser = require('body-parser');
 
 module.exports = function(router, controller) {
+  router.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
   router.route('/users/new')
     .get(controller.new);
 

@@ -1,6 +1,19 @@
-var path = require('path');
+var path = require('path'),
+    bodyParser = require('body-parser'),
+    csrf = require('csurf');
 
 module.exports = function(router, controller) {
+  router.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
+  // router.use(csrf({cookie: true}));
+
+  // router.use(function(req, res, next) {
+  //   res.locals.csrfToken = req.csrfToken();
+  //   next();
+  // });
+
   router.route('/deals/new')
     .get(controller.authenticate, controller.new);
 
