@@ -1,5 +1,5 @@
 {
-  'username': 'tester',
-  'email': 'tester@testing.com',
-  'password': 'test123'
+  "username": "tester",
+  "email": "tester@testing.com",
+  "password": "test123"
 }
