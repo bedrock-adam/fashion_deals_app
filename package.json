@@ -12,12 +12,7 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "expect.js": "^0.3.1",
-    "grunt": "^0.4.5",
-    "grunt-contrib-coffee": "^0.12.0",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-uglify": "^0.6.0",
-    "grunt-env": "^0.4.2",
-    "grunt-nodemon": "^0.3.0",
+    "gulp": "^3.8.10",
     "mocha": "^2.0.1",
     "supertest": "^0.15.0",
     "zombie": "^2.5.1"
