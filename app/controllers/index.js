@@ -8,5 +8,5 @@ module.exports = function(db) {
     sessionsController: require(path.join(__dirname, 'sessionsController'))(db),
 
     dealsApiController: require(path.join(__dirname, 'dealsApiController'))(db)
-  }
-}
+  };
+};

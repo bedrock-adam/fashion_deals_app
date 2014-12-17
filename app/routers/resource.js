@@ -17,4 +17,4 @@ module.exports = function(resource, router, controller) {
   router.param(resource + 'Id', controller.byId);
 
   return router;
-}
+};

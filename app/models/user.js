@@ -36,7 +36,8 @@ module.exports = function(mongoose) {
 
   UserSchema.set('toJSON', {
     transform: function(doc, ret, options) {
-      ret.id = doc.id,
+      ret.id = doc.id;
+
       delete ret.__v;
       delete ret._id;
       delete ret.password_hash;
