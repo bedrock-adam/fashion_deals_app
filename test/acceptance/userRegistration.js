@@ -30,7 +30,7 @@ describe('user registration', function() {
       })
       .done(function() {
         browser.assert.url({ pathname: '/'})
-        browser.assert.text('.info', 'Welcome to Fashion Deals App, ' + username);
+        browser.assert.text('.info', 'Welcome, ' + username);
       });
   });
 

@@ -17,7 +17,7 @@ module.exports = function(db) {
       user.save(function(err) {
         if (err) return res.render('users/new', { user: user, err: err });
 
-        req.flash('info', 'Welcome to Fashion Deals App, ' + user.username);
+        req.flash('info', 'Welcome, ' + user.username);
         res.redirect('/');
       });
     }
