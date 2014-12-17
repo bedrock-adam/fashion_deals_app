@@ -4,6 +4,8 @@
   <h1>New User</h1>
 
   <form action="/users" method="POST">
+    {% include '../shared/_form_errors.swig' %}
+
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <div>
       <label>Username:

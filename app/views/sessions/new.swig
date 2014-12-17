@@ -16,6 +16,8 @@
   <hr/>
 
   <form action="/sessions" method="POST">
+    {% include '../shared/_form_errors.swig' %}
+
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <div>
       <label>Username:
