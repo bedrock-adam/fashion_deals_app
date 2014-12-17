@@ -1,7 +1,7 @@
 {% extends '../layouts/application.swig' %}
 
 {% block content %}
-  <p>Welcome to Fashion Deals App</p>
+  <p>Fashion Deals App</p>
 
   <ul id="deals">
     {% for deal in deals %}
