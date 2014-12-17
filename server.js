@@ -82,10 +82,6 @@ app.use(routers.sessionsRouter(express.Router(), controllers.sessionsController)
 
 app.use('/api', routers.dealsApiRouter(express.Router(), controllers.dealsApiController));
 
-app.use('/angular', routers.angularRouter(express.Router(), controllers.angularController));
-app.use('/backbone', routers.backboneRouter(express.Router(), controllers.backboneController));
-app.use('/ember', routers.emberRouter(express.Router(), controllers.emberController));
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 
