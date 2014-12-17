@@ -10,6 +10,7 @@
   "author": "Adam Mikulasev",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^1.10.0",
     "expect.js": "^0.3.1",
     "grunt": "^0.4.5",
     "grunt-contrib-coffee": "^0.12.0",
@@ -18,7 +19,8 @@
     "grunt-env": "^0.4.2",
     "grunt-nodemon": "^0.3.0",
     "mocha": "^2.0.1",
-    "supertest": "^0.15.0"
+    "supertest": "^0.15.0",
+    "zombie": "^2.5.1"
   },
   "dependencies": {
     "bcrypt": "^0.8.0",
