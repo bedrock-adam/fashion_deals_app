@@ -17,9 +17,9 @@ module.exports = function(db) {
       res.json(deal);
     },
     create: function(req, res, next) {
-      var dealAttrs = _.cloneDeep(req.body.deal);
+      var dealAttrs = _.cloneDeep(req.body);
       var deal = new Deal(dealAttrs);
-      deal.userId = req.user._id;
+      // deal.userId = req.user._id;
 
       deal.save(function(err) {
         if (err) return res.status(400).send({errors: err.errors});
@@ -28,7 +28,7 @@ module.exports = function(db) {
       });
     },
     update: function(req, res) {
-      var dealAttrs = _cloneDeep(req.body.deal);
+      var dealAttrs = _cloneDeep(req.body);
       var deal = req.deal;
 
       _.extend(deal, dealAttrs);
