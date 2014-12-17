@@ -15,7 +15,7 @@ module.exports = function(db) {
       var user = new User(userAttrs);
 
       user.save(function(err) {
-        if (err) return res.render('users/new', { user: user, errors: err.errors });
+        if (err) return res.render('users/new', { user: user, err: err });
 
         req.flash('info', 'Registration successful');
         res.redirect('/');
