@@ -48,9 +48,8 @@ module.exports = (grunt) ->
     done = @async()
 
     seeds = require path.join(__dirname, 'db', 'seeds')
-    seeds (err) ->
-      throw err if err
 
+    seeds().then ->
       grunt.log.writeln 'seeded database'
       done()
 
