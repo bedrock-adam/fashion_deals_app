@@ -2,6 +2,8 @@
 
 Here you shall find a simple express app running on node.
 
+I've also pushed it up to heroku: https://fashiondealsapp.herokuapp.com/
+
 Registration, sign in and deal CRUD functionality has been implemented via full page postbacks (using swig templates) AND a deals json api is mounted at /api/deals.
 
 User and Deal information is stored in mongo, using mongoose.
