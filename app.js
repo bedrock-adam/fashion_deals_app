@@ -10,6 +10,7 @@ var path = require('path'),
     favicon = require('serve-favicon'),
     morgan = require('morgan'),
     express = require('express'),
+    browserify = require('browserify-middleware'),
     app = express();
 
 module.exports = function(env) {
@@ -66,10 +67,21 @@ module.exports = function(env) {
 
   app.use('/api', routers.dealsApiRouter(express.Router(), controllers.dealsApiController));
 
+  app.get('/marionette', function(req, res) {
+    var fs = require('fs');
+    var filePath = path.join(__dirname, 'client', 'public', 'index.html');
+    var content = fs.readFileSync(filePath);
 
-  app.use(express.static(path.join(__dirname, 'public')));
+    res.setHeader('Content-Type', 'text/html');
+    res.send(content);
+  });
 
-  app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+  app.get('/js/app.js', browserify('./client/public/js/app.js'));
+
+  app.use(express.static(path.join(__dirname, 'client', 'public')));
+  app.use(favicon(path.join(__dirname, 'client', 'public', 'favicon.ico')));
+
+  app.use('/bower_components', express.static(path.join(__dirname, 'client', 'bower_components')));
 
   app.use(morgan('dev'));
 

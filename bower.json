@@ -5,20 +5,15 @@
   "authors": [
     "Adam Mikulasev <adam@dealfetch.com.au>"
   ],
-  "moduleType": [
-    "node"
-  ],
   "license": "MIT",
   "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "/public/lib",
+    "/src/bower_components",
     "test",
     "tests"
   ],
-  "dependencies": {
-    "zepto": "~1.1.4"
-  }
+  "dependencies": {}
 }
