@@ -20,11 +20,7 @@
         <![endif]-->
 
         <div id="container">
-        </div>
 
-        <!-- Templates -->
-
-        <script id="layout-view-template" type="text/template">
           <header>
             <p>header here</p>
           </header>
@@ -37,22 +33,68 @@
             </ul>
           </nav>
 
-          <div id="main">
+          <main role="main">
             <p>Fashion Deals App</p>
           </div>
 
           <footer>
             <p>footer here</p>
           </footer>
+
+        </div>
+
+        <!-- Templates -->
+
+        <script id="deal-table-template" type="text/html">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
         </script>
 
-        <script type="text/template" id="deal-template">
-          <div class="view">
-            <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
-            <label><%- title %></label>
-            <a class="destroy"></a>
+        <script id="deal-row-template" type="text/html">
+          <td><%= id %></td>
+          <td><%= title %></td>
+          <td><%= description %></td>
+          <td><a href="#deals/" + <%= id %> class="show">Show</a></td>
+          <td><a href="#deals/" + <%= id %> + "/edit" class="edit">Edit</a></td>
+          <td><a href="#" class="delete">Delete</a></td>
+        </script>
+
+        <script type="text/template" id="deal-show-template">
+          <header>
+            <h1><%= title %></h1>
+          </header>
+          <p>
+            <%= description %>
+          </p>
+          <footer class="actions">
+            <a href="#deals/" + <%= id %> + "/edit" class="edit">Edit</a><br>
+            <a href="#" class="delete">Delete</a>
+          </footer>
+        </script>
+
+        <script type="text/template" id="deal-form-template">
+          <div class="field">
+            <label for="deal[title]">Title</label><br>
+            <input type="text" id="deal[title]" name="deal[title]" value="<%= title %>">
           </div>
-          <input class="edit" type="text" value="<%- title %>" />
+          <div class="field">
+            <label for="deal[description]">Description</label><br>
+            <textarea id="deal[description]" name="deal[description]"><%= description %></textarea>
+          </div>
+          <div class="actions">
+            <input type="submit" value="Submit">
+            <input type="button" class="cancel" value="Cancel">
+          </div>
         </script>
 
         <script src="js/app.js"></script>
