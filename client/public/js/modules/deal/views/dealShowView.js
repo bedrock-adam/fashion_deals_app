@@ -14,12 +14,15 @@ module.exports = function(App, Backbone) {
       'click @ui.deleteLink': 'delete'
     },
 
-    edit: function() {
-      App.commands.execute('deal:form', this.model)
+    edit: function(e) {
+      e.preventDefault();
+
+      App.commands.execute('deal:form', this.model);
     },
 
-    delete: function() {
-      App.commands.execute('deal:table', dealCollection)
+    delete: function(e) {
+      e.preventDefault();
+
       this.model.destroy();
 
       var dealCollection = App.request('deal:collection');

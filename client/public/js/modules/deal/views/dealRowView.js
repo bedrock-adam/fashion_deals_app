@@ -17,14 +17,20 @@ module.exports = function(App, Backbone) {
     },
 
     show: function(e) {
+      e.preventDefault();
+
       App.commands.execute('deal:show', this.model)
     },
 
     edit: function(e) {
+      e.preventDefault();
+
       App.commands.execute('deal:form', this.model)
     },
 
     delete: function(e) {
+      e.preventDefault();
+
       var dealCollection = this.model.collection;
 
       this.model.destroy();
