@@ -20,6 +20,11 @@ module.exports = function(App, Backbone) {
 
     delete: function() {
       App.commands.execute('deal:table', dealCollection)
+      this.model.destroy();
+
+      var dealCollection = App.request('deal:collection');
+
+      App.commands.execute('deal:table', dealCollection);
     }
   });
 
